@@ -1,11 +1,21 @@
-# Wrangler configuration for Cloudflare Pages.
-# Pages 项目名是 Cloudflare 控制台里您创建的项目名，与 GitHub 仓库一致 = home。
+# wrangler.toml — Cloudflare Pages V2 build system reads this automatically
+# when present in the repository. Pages projects only recognize a subset of
+# Wrangler fields; everything else (especially anything under "unsafe.*") is
+# rejected by the Pages validator.
+#
+# For Pages projects, Cloudflare recommends:
+#   - name (optional, matches the Pages project name)
+#   - pages_build_output_dir (matches the "Build output directory" field)
+#   - compatibility_date / compatibility_flags (optional)
+#
+# DO NOT add [[unsafe.deployment]] here. That field is Workers-only
+# (used by `wrangler pages deploy` CLI). Cloudflare Pages V2 build
+# pipeline refused it with:
+#   "Configuration file for Pages projects does not support 'unsafe'"
+#
+# Deployment is handled by Cloudflare Pages directly pulling from the
+# connected GitHub repository; no Wrangler deploy step is needed.
 
 name = "home"
 compatibility_date = "2024-11-01"
 pages_build_output_dir = "dist"
-
-# 告诉 wrangler Pages 项目名是哪个。部署走 GitHub + Cloudflare 直连部署，
-# 不需要在这里填 token —— token 请放 GitHub Secrets（本项目未使用 GitHub Action 部署）。
-[[unsafe.deployment]]
-project_name = "home"
