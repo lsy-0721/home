@@ -166,7 +166,8 @@ docker run --rm -d -p 8080:80 --name home home:latest
 | 仓名已存在 / Initialize 勾错冲突 | `git pull --rebase origin main` 后再 push；或仓库整删重建 |
 | Pages 找不到 GitHub 仓库 | 设置：<https://github.com/settings/installations> → Cloudflare Pages → 勾上仓 |
 | 构建日志里 `pnpm` 未找到 | 在 CF Pages 环境变量加 `PNPM_VERSION=9`，或 Build command 改为 `npm i -g pnpm@9 && pnpm install && pnpm build` |
-| 构建报 `packages field missing or empty` | pnpm 10+ 改变为强制检查 — 仓库根必须有 `pnpm-workspace.yaml`、并显式写 `packages: ["."]`。本仓库已包含此文件。 |
+| 构建报 `packages field missing or empty` | pnpm 10+ 改变为强制检查 — 仓库根必须有 `pnpm-workspace.yaml`、并显式写 `packages: ["."]`。另外要避免三个隐形坏字符：(1) **UTF-8 BOM（`EF BB BF`）** — PowerShell 的 `Set-Content` 会加；手工加 BOM 也会；让 pnpm YAML 解析器看不到 `packages:` 这个键；(2) **CRLF 换行** — Windows 编辑器默认写 `0D 0A`；CF 用 Linux 应该只放 `0A`；(3) **注释里出现中文等多字节字符可能被替换为 `?`** — 反正别在 yaml 里写注释，纯 ASCII 最安全。 |
+| 构建报 `pnpm-workspace.yaml has an invalid field` | 不要在 `pnpm-workspace.yaml` 里写 `pnpm.onlyBuiltDependencies` 或 `pnpm.overrides` 等 — v10/11 已把这些键搬走，只剩 `packages`、settings（`allowBuilds` 等）。 |
 | 构建报 `[ERR_PNPM_IGNORED_BUILDS]`/`Ignored build scripts: workerd` | pnpm 不允许 `workerd` 等跑 postinstall。我们用 `pnpm-workspace.yaml` 里的 `allowBuilds:` 白名单了 `workerd / esbuild / sharp`，无需任何额外配置。 |
 | 访问 `/about` 404 | 我们的 build format 是 directory，已生成 `about/index.html`；万一出问题看 Build 设置的 Output dir 是不是 `dist` |
 | Blog 卡片 404 | 确认 [src/data/site.ts](src/data/site.ts) 中 Blog URL 仍是 `https://www.execute.cc.cd/` |
