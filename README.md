@@ -50,6 +50,8 @@ deploy/
 ├── Dockerfile          # 多阶段镜像
 └── nginx.conf.example  # 自有服务器配置
 .github/workflows/ci.yml
+pnpm-workspace.yaml     # pnpm 10+ 必需（packages + allowBuilds 白名单）
+wrangler.toml           # Cloudflare Pages 项目声明
 ```
 
 ## License

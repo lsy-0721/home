@@ -1,5 +1,12 @@
-﻿allowBuilds:
+﻿packages:
+  - "."
+
+# pnpm 10+ 需要显式声明 packages；之前没声明所以 Cloudflare Pages 报错 "packages field missing or empty"。
+# 项目虽是单仓库，写 "packages: ['.']" 让 pnpm 把当前目录视为 workspace 根。
+#
+# pnpm 10/11 在 pnpm-workspace.yaml 里读取 allowBuilds 来允许 postinstall。
+# workerd 是 wrangler 运行时需要的 rust 二进制。
+allowBuilds:
+  workerd: true
   esbuild: true
   sharp: true
-  workerd: true
-
