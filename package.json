@@ -1,0 +1,22 @@
+{
+  "name": "home",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "deploy": "wrangler pages deploy dist --project-name=home --commit-dirty=true",
+    "deploy:dry": "wrangler pages deploy dist --project-name=home --dry-run"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3",
+    "wrangler": "^3.114.17"
+  }
+}

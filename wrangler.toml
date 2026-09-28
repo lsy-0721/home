@@ -1,0 +1,11 @@
+# Wrangler configuration for Cloudflare Pages.
+# Pages 项目名是 Cloudflare 控制台里您创建的项目名，与 GitHub 仓库一致 = home。
+
+name = "home"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "dist"
+
+# 告诉 wrangler Pages 项目名是哪个。部署走 GitHub + Cloudflare 直连部署，
+# 不需要在这里填 token —— token 请放 GitHub Secrets（本项目未使用 GitHub Action 部署）。
+[[unsafe.deployment]]
+project_name = "home"

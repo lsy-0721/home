@@ -1,0 +1,60 @@
+# GitHub Actions CI — 跑 type-check + build 来保证 main 分支始终能编译。
+# 真正的部署由 Cloudflare Pages 直接接管 GitHub 仓库后自动构建部署，
+# 该 Action 不负责推送，请放心使用。
+#
+# 走 Cloudflare 直连 GitHub 的部署方式（Cloudflare 推荐路径）：
+#   1. Cloudflare Dashboard → Workers & Pages → home → Settings → Builds
+#      连接 GitHub 仓库：lsy-0721/home
+#   2. Build command:      pnpm install --frozen-lockfile && pnpm build
+#      Build output:       dist
+#      Build system:       v2
+#      Root directory:     (留空)
+#      环境变量（可选）:  NODE_VERSION=22, PNPM_VERSION=9
+#   3. 保存。后续每次 push 到 main 都会自动触发部署。
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type-check
+        run: pnpm exec astro check
+
+      - name: Build
+        run: pnpm build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7

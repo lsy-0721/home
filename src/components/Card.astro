@@ -1,0 +1,32 @@
+---
+import { isExternal } from "../data/site";
+
+// A glass-style card used on the home grid. Renders as <a> if href is provided, else <div>.
+// For external links we add target/rel so it opens in a new tab without leaking referrer info.
+export interface Props {
+  title: string;
+  desc?: string;
+  icon?: string;
+  href?: string;
+}
+
+const { title, desc, icon, href } = Astro.props;
+const external = href ? isExternal(href) : false;
+const Tag = href ? "a" : "div";
+const aProps: Record<string, string> = {};
+if (href) {
+  aProps.href = href;
+  if (external) {
+    aProps.target = "_blank";
+    aProps.rel = "noreferrer noopener";
+  }
+}
+---
+<Tag class="card" {...aProps}>
+  {icon && <span class="icon">{icon}</span>}
+  <div>
+    <h2>{title}</h2>
+    {desc && <p>{desc}</p>}
+  </div>
+  {href && <span class="arrow" aria-hidden="true">{external ? "↗" : "→"}</span>}
+</Tag>

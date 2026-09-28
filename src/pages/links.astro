@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+---
+<BaseLayout title="Links · YUYU" description="鱼裕的网络足迹">
+  <p class="eyebrow">LINKS</p>
+  <h1>链接</h1>
+
+  <p style="color:var(--fg-muted);max-width:60ch;">
+    这里收集我在互联网上常用的账号与作品。如果你想联系我，欢迎邮件，或者
+    在评论区 / 我的博客留言。
+  </p>
+
+  <div class="list fade-in" style="margin-top:24px;">
+    {site.socials.map((s) => (
+      <a class="panel link" href={s.href} target={s.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+        <h2>{s.name} ↗</h2>
+        <p>{s.tag} · {s.href}</p>
+      </a>
+    ))}
+    <!-- Astro Koharu，独立部署的博客 -->
+    <a class="panel link" href="https://www.execute.cc.cd/" target="_blank" rel="noreferrer noopener">
+      <h2>Blog ↗</h2>
+      <p>https://www.execute.cc.cd/ · 用 Astro Koharu 搭建的独立博客</p>
+    </a>
+  </div>
+
+  <Footer />
+</BaseLayout>

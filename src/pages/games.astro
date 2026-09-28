@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import { games } from "../data/content";
+
+// Build the rating row without raw HTML strings.
+const StarRow = (n: number) => {
+  const filled = "★".repeat(n);
+  const empty  = "☆".repeat(5 - n);
+  return { filled, empty, full: filled.length === 5 };
+};
+---
+<BaseLayout title="Games · YUYU" description="鱼裕的游戏收藏与游玩记录">
+  <p class="eyebrow">GAME ARCHIVE</p>
+  <h1>游戏</h1>
+
+  <div class="list fade-in">
+    {games.map((g) => {
+      const s = StarRow(g.rating);
+      return (
+        <article class="panel">
+          <div class="game-card">
+            <div class="cover" aria-hidden="true">{g.cover}</div>
+            <div style="flex:1;min-width:0;">
+              <h2>{g.name}</h2>
+              <div class="meta">{g.role}</div>
+              <div class="stars-row">
+                <span>{s.filled}</span>
+                <span class="off">{s.empty}</span>
+              </div>
+              <div class="tags">
+                {g.tags.map((t) => <span>{t}</span>)}
+              </div>
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <Footer />
+</BaseLayout>

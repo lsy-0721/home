@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Card from "../components/Card.astro";
+import Stars from "../components/Stars.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+---
+<BaseLayout
+  title={`${site.name} · ${site.enName}`}
+  description={`${site.name} 的个人主页 — ${site.tagline}`}
+  variant="home"
+>
+  <Stars />
+
+  <section class="hero">
+    <p class="eyebrow">WELCOME TO MY SPACE</p>
+    <h1>{site.name} <span>/ {site.enName}</span></h1>
+    <p class="subtitle">{site.tagline}</p>
+    <p class="quote">「{site.bio}」</p>
+  </section>
+
+  <section class="grid fade-in">
+    {site.nav.map((item) => (
+      <Card
+        title={item.title}
+        desc={item.desc}
+        icon={item.icon}
+        href={item.href}
+      />
+    ))}
+  </section>
+
+  <Footer />
+</BaseLayout>

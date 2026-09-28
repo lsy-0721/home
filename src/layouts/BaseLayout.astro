@@ -1,0 +1,37 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** "page" 用于内页（带 .back 链接），"home" 用于首页 */
+  variant?: "home" | "page";
+}
+
+const {
+  title,
+  description = "鱼裕 / YUYU · 个人主页",
+  variant = "page",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#070914" />
+  </head>
+  <body>
+    <main class={variant === "home" ? "home" : "page"}>
+      {variant === "page" && <a class="back" href="/">← Back</a>}
+      <slot />
+    </main>
+  </body>
+</html>

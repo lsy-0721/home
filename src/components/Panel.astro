@@ -1,0 +1,16 @@
+---
+// A glass-style panel used on inner pages. Like Card but without icon/arrow.
+export interface Props {
+  title?: string;
+  class?: string;
+  /** Render children before the title (e.g. for game cards) instead of after */
+  bodySlotFirst?: boolean;
+}
+
+const { title, class: className = "", bodySlotFirst = false } = Astro.props;
+---
+<section class={`panel ${className}`.trim()}>
+  {bodySlotFirst ? <slot /> : null}
+  {title && <h2>{title}</h2>}
+  {!bodySlotFirst && <slot />}
+</section>

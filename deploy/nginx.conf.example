@@ -1,0 +1,55 @@
+# nginx 配置示例 — 部署在 home.execute.cc.cd 子域
+# 已包含 SPA fallback / 静态资源缓存 / 安全头 / gzip
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name home.execute.cc.cd;
+
+    # 强烈建议把 ACME challenge 走 80，证书装好后强制 301 到 https。
+    # 上线前先 certbot --nginx -d home.execute.cc.cd 拿证书。
+
+    root /var/www/home/dist;
+    index index.html;
+
+    # 安全头
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "interest-cohort=()" always;
+
+    # 静态资源缓存
+    location ~* \/_astro/.*\.(css|js|woff2?|svg|png|jpg|webp)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    location = /favicon.svg {
+        expires 1d;
+        add_header Cache-Control "public";
+        access_log off;
+    }
+
+    # 压缩
+    gzip on;
+    gzip_comp_level 6;
+    gzip_min_length 256;
+    gzip_proxied any;
+    gzip_types
+        text/plain
+        text/css
+        text/xml
+        application/javascript
+        application/json
+        application/xml
+        image/svg+xml;
+
+    # HTML 兜底：未匹配到的路径尝试 index.html（Astro 的 directory 模式生成 index/html 已经够用）
+    error_page 404 /404.html;       # 如果你把 404 页单独导出成静态文件，可以指过去
+    location = /404.html { internal; }
+
+    location / {
+        try_files $uri $uri/ $uri.html $uri/index.html =404;
+    }
+}

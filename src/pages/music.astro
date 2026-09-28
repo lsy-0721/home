@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import { nowPlaying, playlists } from "../data/content";
+---
+<BaseLayout title="Music · YUYU" description="鱼裕正在听的歌与自建歌单">
+  <p class="eyebrow">MUSIC</p>
+  <h1>音乐</h1>
+
+  <section class="panel fade-in">
+    <h2>最近单曲循环</h2>
+    <div class="list" style="margin-top:18px;">
+      {nowPlaying.map((m) => (
+        <div class="now-row panel" style="padding:14px 18px;">
+          <div class="album" aria-hidden="true">{m.cover}</div>
+          <div>
+            <strong>{m.title}</strong>
+            <div style="color:var(--fg-dim);font-size:12px;margin-top:4px;">
+              {m.artist} · <span style="color:var(--fg-muted)">{m.reason}</span>
+            </div>
+          </div>
+          <span style="color:var(--accent);font-size:14px;">▶</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="panel fade-in" style="margin-top:14px;">
+    <h2>我的歌单</h2>
+    <p>口味杂糅 —— 二次元 OST、深夜向 Lo-fi、旅行路上的高能量节奏。</p>
+    <div class="playlist-grid">
+      {playlists.map((p) => (
+        <div class="playlist" style={`--c:${p.color}`}>
+          <div class="name">{p.name}</div>
+          <div class="count">{p.count} 首</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

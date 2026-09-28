@@ -1,0 +1,5 @@
+# Cloudflare Pages / Netlify 的重定向规则
+# 仅在此类平台生效。Nginx / COS 等用各自平台的 rewrite / 301 规则代替。
+
+/blog     https://www.execute.cc.cd/  301
+/blog/    https://www.execute.cc.cd/  301
