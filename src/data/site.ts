@@ -14,7 +14,6 @@ export const site = {
   ] as const,
   // 顶部导航 / 卡片（顺序即展示顺序）
   nav: [
-    { title: "About",    desc: "关于我 / 学习 / 兴趣",    href: "/about",                          icon: "✦" },
     { title: "Blog",     desc: "记录技术、生活与思考",     href: "https://www.execute.cc.cd/",     icon: "⌁", external: true },
     { title: "Projects", desc: "正在制作与完成的项目",     href: "/projects",                       icon: "◈" },
     { title: "Games",    desc: "游戏收藏与游玩记录",       href: "/games",                          icon: "◇" },

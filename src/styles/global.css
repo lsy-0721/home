@@ -244,38 +244,6 @@ footer {
   font-size: 12px;
 }
 
-/* ---------- About-page specific bits ---------- */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 14px;
-  margin-top: 30px;
-}
-.fact-list { display: grid; gap: 10px; margin: 14px 0 0; padding: 0; list-style: none; }
-.fact-list li {
-  display: flex; justify-content: space-between;
-  font-size: 13px;
-  padding: 8px 0;
-  border-bottom: 1px dashed rgba(166, 181, 255, .12);
-}
-.fact-list li:last-child { border-bottom: 0; }
-.fact-list .k { color: var(--fg-dim); }
-.fact-list .v { color: var(--fg-muted); }
-
-.timeline { padding-left: 14px; border-left: 2px solid rgba(166, 181, 255, .18); margin: 0; }
-.timeline li { list-style: none; padding: 0 0 16px 14px; position: relative; }
-.timeline li::before {
-  content: "";
-  position: absolute;
-  left: -7px; top: 6px;
-  width: 10px; height: 10px;
-  border-radius: 999px;
-  background: var(--accent-2);
-  box-shadow: 0 0 10px var(--accent-2);
-}
-.timeline .when { font-size: 12px; color: var(--fg-dim); }
-.timeline .what { color: var(--fg-muted); font-size: 13px; }
-
 /* ---------- Games grid ---------- */
 .game-card { display: flex; gap: 16px; align-items: flex-start; }
 .game-card .cover {
@@ -343,7 +311,6 @@ footer {
 /* ---------- Responsive ---------- */
 @media (max-width: 720px) {
   .grid, .grid.three { grid-template-columns: 1fr; }
-  .about-grid { grid-template-columns: 1fr; }
   .playlist-grid { grid-template-columns: repeat(2, 1fr); }
   .home { padding-top: 11vh; }
   .grid { margin-top: 40px; }
